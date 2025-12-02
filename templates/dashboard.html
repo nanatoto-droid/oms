@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard</h2>
+<p>Welcome, {% if user.is_authenticated %}{{ user.get_full_name|default:user.username }}{% else %}Guest{% endif %}</p>
+{% endblock %}

@@ -1,0 +1,77 @@
+:root {
+  --pastel-blue: #a8d0e6;
+  --pastel-blue-dark: #79b8d1;
+  --accent-ok: #9ad3bc;
+  --accent-warn: #f7d794;
+  --accent-danger: #f78686;
+  --text: #2f3b45;
+  --card-bg: #ffffff;
+  --bg: #eef5fb;
+}
+body { background: var(--bg); 
+    color: var(--text);
+    font-family: system-ui, sans-serif; 
+    margin:0; 
+}
+header { 
+    background: var(--pastel-blue); 
+    padding: 12px 16px; 
+}
+nav a { 
+    color: #0d2b3e; 
+    margin-right: 12px; 
+    text-decoration: none; 
+}
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); 
+    gap: 16px; 
+}
+.card { 
+    background: var(--card-bg); 
+    border: 1px solid #d8e6ef; 
+    border-radius: 8px; 
+    padding: 12px; 
+}
+.btn { 
+    display:inline-block; 
+    padding:8px 12px; 
+    border-radius:6px; 
+    background: var(--pastel-blue-dark); 
+    color:#fff; 
+    text-decoration:none; 
+}
+.btn.warn { 
+    background: var(--accent-warn); 
+    color:#4f3b00; 
+}
+.btn.danger { 
+    background: var(--accent-danger); 
+    color:#fff; 
+}
+.badge.ok { 
+    background: var(--accent-ok); 
+    color:#063; 
+    padding:2px 6px; 
+    border-radius:4px; 
+}
+.badge.danger { 
+    background: var(--accent-danger); 
+    color:#fff; padding:2px 6px; 
+    border-radius:4px; 
+}
+.messages { 
+    list-style:none; 
+    padding:0; 
+}
+.messages li { 
+    margin:8px 0; 
+    padding:8px; 
+    border-radius:6px; 
+}
+.messages .success { 
+    background:#e6fff3; 
+}
+.messages .error { 
+    background:#ffecec; 
+}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Orders</h2>
+{% for o in orders %}
+  <div class="card">
+    <h3>Order #{{ o.id }} — {{ o.status }}</h3>
+    <ul>
+      {% for it in o.items.all %}
+        <li>{{ it.product.name }} × {{ it.quantity }}</li>
+      {% endfor %}
+    </ul>
+    <p>Created: {{ o.created_at }}</p>
+    {% if o.status == 'pending' %}
+      <a class="btn warn" href="{% url 'orders:cancel' o.id %}">Cancel</a>
+    {% endif %}
+    {% if o.status in 'pending cancelled' %}
+      <a class="btn danger" href="{% url 'orders:delete' o.id %}">Delete</a>
+    {% endif %}
+  </div>
+{% empty %}
+  <p>You have no orders.</p>
+{% endfor %}
+{% endblock %}

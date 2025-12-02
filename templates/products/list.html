@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Products</h2>
+<div class="grid">
+    {% for p in products %}
+    <div class="card">
+        <h3>{{ p.name }}</h3>
+        <p>SKU: {{ p.sku }}</p>
+        <p>Category: {{ p.category }}</p>
+        <p>Price: {{ p.price }}</p>
+        <p>
+            {% if p.is_out_of_stock %}<span class="badge danger">Out of stock</span>
+            {% else %}<span class="badge ok">In stock ({{ p.stock }})</span>{% endif %}
+        </p>
+        {% if user.is_authenticated and user.groups.all.0.name == 'customers' %}
+            {% if not p.is_out_of_stock %}
+            <a class="btn" href="{% url 'orders:add' p.id %}">Order</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% empty %}
+    <p>No products.</p>
+    {% endfor %}
+</div>
+{% endblock %}
