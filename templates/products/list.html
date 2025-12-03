@@ -1,25 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h2>Products</h2>
-<div class="grid">
+<h2 class="mb-4">Available Products</h2>
+
+<div class="row g-4">
     {% for p in products %}
-    <div class="card">
-        <h3>{{ p.name }}</h3>
-        <p>SKU: {{ p.sku }}</p>
-        <p>Category: {{ p.category }}</p>
-        <p>Price: {{ p.price }}</p>
-        <p>
-            {% if p.is_out_of_stock %}<span class="badge danger">Out of stock</span>
-            {% else %}<span class="badge ok">In stock ({{ p.stock }})</span>{% endif %}
-        </p>
-        {% if user.is_authenticated and user.groups.all.0.name == 'customers' %}
-            {% if not p.is_out_of_stock %}
-            <a class="btn" href="{% url 'orders:add' p.id %}">Order</a>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 h-100">
+            <!-- Product image -->
+            {% if p.image %}
+                <img src="{{ p.image.url }}" class="card-img-top" alt="{{ p.name }}">
+            {% else %}
+                <img src="{% static 'images/product-placeholder.png' %}" class="card-img-top" alt="{{ p.name }}">
             {% endif %}
-        {% endif %}
+
+            <div class="card-body">
+                <h5 class="card-title">{{ p.name }}</h5>
+                <p class="card-text text-muted">SKU: {{ p.sku }}</p>
+                <p class="fw-bold">Price: {{ p.price }}</p>
+
+                {% if p.category %}
+                    <span class="badge bg-info">{{ p.category.name }}</span>
+                {% endif %}
+
+                {% for tag in p.tags.all %}
+                    <span class="badge bg-secondary">{{ tag.name }}</span>
+                {% endfor %}
+
+                <p class="mt-2">
+                    {% if p.is_out_of_stock %}
+                        <span class="badge bg-danger">Out of stock</span>
+                    {% else %}
+                        <span class="badge bg-success">In stock ({{ p.stock }})</span>
+                    {% endif %}
+                </p>
+
+                {% if user.is_authenticated and user.groups.all.0.name == 'customers' %}
+                    {% if not p.is_out_of_stock %}
+                        <a href="{% url 'orders:add' p.id %}" class="btn btn-primary w-100 mt-2">Order Now</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
     </div>
     {% empty %}
-    <p>No products.</p>
+    <p>No products available.</p>
     {% endfor %}
 </div>
 {% endblock %}

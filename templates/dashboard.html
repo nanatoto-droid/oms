@@ -1,5 +1,48 @@
+
 {% extends 'base.html' %}
 {% block content %}
-<h2>Dashboard</h2>
-<p>Welcome, {% if user.is_authenticated %}{{ user.get_full_name|default:user.username }}{% else %}Guest{% endif %}</p>
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row g-4">
+    <!-- Orders Pending -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title text-muted">Pending Orders</h5>
+                <p class="display-6 text-warning">{{ stats.by_status.pending|default:0 }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivered Orders -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title text-muted">Delivered</h5>
+                <p class="display-6 text-success">{{ stats.by_status.delivered|default:0 }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancelled Orders -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title text-muted">Cancelled</h5>
+                <p class="display-6 text-danger">{{ stats.by_status.cancelled|default:0 }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Out of Stock -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title text-muted">Out of Stock</h5>
+                <p class="display-6 text-secondary">{{ stats.by_status.out_of_stock|default:0 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% if user.is_authenticated %}{{ user.get_full_name|default:user.username }}{% else %}Guest{% endif %}
 {% endblock %}

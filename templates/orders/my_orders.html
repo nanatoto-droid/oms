@@ -1,23 +1,44 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h2>My Orders</h2>
-{% for o in orders %}
-  <div class="card">
-    <h3>Order #{{ o.id }} — {{ o.status }}</h3>
-    <ul>
-      {% for it in o.items.all %}
-        <li>{{ it.product.name }} × {{ it.quantity }}</li>
-      {% endfor %}
-    </ul>
-    <p>Created: {{ o.created_at }}</p>
-    {% if o.status == 'pending' %}
-      <a class="btn warn" href="{% url 'orders:cancel' o.id %}">Cancel</a>
-    {% endif %}
-    {% if o.status in 'pending cancelled' %}
-      <a class="btn danger" href="{% url 'orders:delete' o.id %}">Delete</a>
-    {% endif %}
-  </div>
-{% empty %}
-  <p>You have no orders.</p>
-{% endfor %}
+<h2 class="mb-4">My Orders</h2>
+
+<div class="timeline">
+    {% for o in orders %}
+    <div class="timeline-item">
+        <div class="timeline-icon">
+            {% if o.status == 'pending' %}
+                <span class="badge bg-warning">⏳</span>
+            {% elif o.status == 'delivered' %}
+                <span class="badge bg-success">✅</span>
+            {% elif o.status == 'cancelled' %}
+                <span class="badge bg-danger">❌</span>
+            {% elif o.status == 'out_of_stock' %}
+                <span class="badge bg-secondary">🚫</span>
+            {% endif %}
+        </div>
+        <div class="timeline-content card shadow-sm">
+            <h5>Order #{{ o.id }} — {{ o.status|title }}</h5>
+            <small class="text-muted">Placed on {{ o.created_at|date:"M d, Y H:i" }}</small>
+            <ul class="mt-2">
+                {% for it in o.items.all %}
+                    <li>{{ it.product.name }} × {{ it.quantity }}</li>
+                {% endfor %}
+            </ul>
+
+            <!-- Action buttons -->
+            <div class="mt-2">
+                {% if o.status == 'pending' %}
+                    <a href="{% url 'orders:cancel' o.id %}" class="btn btn-warning btn-sm">Cancel</a>
+                {% endif %}
+                {% if o.status in 'pending cancelled' %}
+                    <a href="{% url 'orders:delete' o.id %}" class="btn btn-danger btn-sm">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>You have no orders yet.</p>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -40,3 +40,7 @@ def logout_view(request):
 def dashboard_view(request):
     return render(request, 'dashboard.html')
 
+@login_required
+def profile_view(request):
+    return render(request, 'accounts/profile.html')
+

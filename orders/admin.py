@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Order, OrderItem, OrderStatus
 
+
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
@@ -10,5 +11,5 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'customer', 'status', 'created_at', 'updated_at')
     list_filter = ('status', 'created_at')
     search_fields = ('customer__username',)
-    inlines = [OrderItemInline]
+    
     
